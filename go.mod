@@ -1,4 +1,4 @@
-module otel-lambda-test
+module otel-playground
 
 go 1.19
 
