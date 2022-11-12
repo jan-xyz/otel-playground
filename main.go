@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"log"
+	"reflect"
 
 	"github.com/sirupsen/logrus"
 	"github.com/uptrace/opentelemetry-go-extra/otellogrus"
@@ -26,10 +27,8 @@ var (
 	id          int64 = 12345
 )
 
-type reqID struct{}
-
 func Handle(ctx context.Context) error {
-	ctx = context.WithValue(ctx, reqID{}, "xxxxxxxxxxxxxxxxxxxxxxx")
+	ctx = context.WithValue(ctx, &reqID{}, "xxxxxxxxxxxxxxxxxxxxxxx")
 	ctx, span := otel.Tracer(service).Start(ctx, "Handle")
 	defer span.End()
 
@@ -89,7 +88,15 @@ func buildProvider() (*tracesdk.TracerProvider, *metricsdk.MeterProvider, error)
 		logrus.WarnLevel,
 	))
 	logrus.AddHook(otelhook)
-	logrus.AddHook(&hook{levels: otelhook.Levels()})
+	lhook := &hook{
+		levels: otelhook.Levels(),
+		ctxKeys: []fmt.Stringer{
+			&reqID{},
+			&userID{},
+		},
+	}
+	logrus.AddHook(lhook)
+	logrus.SetReportCaller(true)
 	return tp, mp, nil
 }
 
@@ -107,8 +114,21 @@ func main() {
 	Handle(ctx)
 }
 
+type userID struct{}
+
+func (userID) String() string {
+	return "user_id"
+}
+
+type reqID struct{}
+
+func (reqID) String() string {
+	return "req_id"
+}
+
 type hook struct {
-	levels []logrus.Level
+	levels  []logrus.Level
+	ctxKeys []fmt.Stringer
 }
 
 // Levels returns logrus levels on which this hook is fired.
@@ -116,7 +136,8 @@ func (h hook) Levels() []logrus.Level {
 	return h.levels
 }
 
-func (*hook) Fire(entry *logrus.Entry) error {
+// took inspiration from https://github.com/uptrace/uptrace-go/blob/extra/otellogrus/v1.1.0/extra/otellogrus/otellogrus.go
+func (h hook) Fire(entry *logrus.Entry) error {
 	ctx := entry.Context
 	if ctx == nil {
 		return nil
@@ -124,11 +145,37 @@ func (*hook) Fire(entry *logrus.Entry) error {
 
 	span := trace.SpanFromContext(ctx)
 
-	*entry = *entry.WithFields(logrus.Fields{
+	fields := logrus.Fields{
 		"trace_id": span.SpanContext().TraceID().String(),
 		"span_id":  span.SpanContext().SpanID().String(),
-		"req_id":   ctx.Value(reqID{}),
-	})
+	}
+
+	for _, v := range h.ctxKeys {
+		fields[v.String()] = ctx.Value(v)
+	}
+
+	if entry.Caller != nil {
+		if entry.Caller.Function != "" {
+			fields[string(semconv.CodeFunctionKey)] = entry.Caller.Function
+		}
+		if entry.Caller.File != "" {
+			fields[string(semconv.CodeFilepathKey)] = entry.Caller.File
+			fields[string(semconv.CodeLineNumberKey)] = entry.Caller.Line
+		}
+	}
+	for k, v := range entry.Data {
+		if k == "error" {
+			if err, ok := v.(error); ok {
+				typ := reflect.TypeOf(err).String()
+				fields[string(semconv.ExceptionTypeKey)] = typ
+				fields[string(semconv.ExceptionMessageKey)] = err.Error()
+				continue
+			}
+		}
+
+		fields[k] = v
+	}
+	*entry = *entry.WithFields(fields)
 
 	return nil
 }
