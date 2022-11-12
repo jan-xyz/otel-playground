@@ -97,6 +97,7 @@ func buildProvider() (*tracesdk.TracerProvider, *metricsdk.MeterProvider, error)
 	}
 	logrus.AddHook(lhook)
 	logrus.SetReportCaller(true)
+	logrus.SetFormatter(&logrus.JSONFormatter{PrettyPrint: true})
 	return tp, mp, nil
 }
 
