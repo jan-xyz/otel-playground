@@ -10,7 +10,7 @@ import (
 	metricsglobal "go.opentelemetry.io/otel/metric/global"
 )
 
-func Handle(ctx context.Context, req any) (any, error) {
+func Handle(ctx context.Context, _ any) (any, error) {
 	ctx = context.WithValue(ctx, &reqID{}, "xxxxxxxxxxxxxxxxxxxxxxx")
 	ctx, span := otel.Tracer(service).Start(ctx, "Handle")
 	defer span.End()

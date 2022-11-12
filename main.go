@@ -4,6 +4,9 @@ import (
 	"context"
 
 	"github.com/aws/aws-lambda-go/lambda"
+	"go.opentelemetry.io/contrib/instrumentation/github.com/aws/aws-lambda-go/otellambda"
+	"go.opentelemetry.io/contrib/instrumentation/github.com/aws/aws-lambda-go/otellambda/xrayconfig"
+	"go.opentelemetry.io/contrib/propagators/aws/xray"
 	"go.opentelemetry.io/otel"
 	metricsglobal "go.opentelemetry.io/otel/metric/global"
 )
@@ -16,14 +19,16 @@ var (
 
 func main() {
 	ctx := context.Background()
-	tp, mp, err := buildProvider()
+	tp, mp, err := buildProvider(ctx)
 	if err != nil {
 		panic(err)
 	}
 	otel.SetTracerProvider(tp)
 	metricsglobal.SetMeterProvider(mp)
+	defer tp.Shutdown(ctx)
+	defer mp.Shutdown(ctx)
 
-	handle := middlewareChain(flushOtel(mp, tp))(Handle)
+	otel.SetTextMapPropagator(xray.Propagator{})
 
-	lambda.StartWithOptions(handle, lambda.WithContext(ctx))
+	lambda.StartWithOptions(otellambda.InstrumentHandler(Handle, xrayconfig.WithRecommendedOptions(tp)...))
 }

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
+	"path"
 
 	"github.com/aws/aws-cdk-go/awscdk/v2"
 	"github.com/aws/aws-cdk-go/awscdk/v2/awslambda"
@@ -32,13 +33,18 @@ func NewInfraStack(scope constructs.Construct, id string, props *InfraStackProps
 		Code: awslambda.AssetCode_FromAsset(jsii.String("../"), &awss3assets.AssetOptions{
 			Bundling: &awscdk.BundlingOptions{
 				Local: &bundler{},
-				Image: awslambda.Runtime_GO_1_X().BundlingImage(),
+				Image: awslambda.Runtime_PROVIDED_AL2().BundlingImage(),
 			},
 		}),
-		Handler: jsii.String("otel-playground"),
-		Runtime: awslambda.Runtime_GO_1_X(),
+		Handler: jsii.String("bootstrap"),
+		Runtime: awslambda.Runtime_PROVIDED_AL2(),
+		Layers: &[]awslambda.ILayerVersion{awslambda.LayerVersion_FromLayerVersionArn(
+			stack,
+			jsii.String("adot"),
+			jsii.String("arn:aws:lambda:eu-central-1:901920570463:layer:aws-otel-collector-amd64-ver-0-62-1:1"),
+		)},
+		Tracing: awslambda.Tracing_ACTIVE,
 	})
-
 	return stack
 }
 
@@ -59,7 +65,7 @@ func main() {
 type bundler struct{}
 
 func (bundler) TryBundle(outputDir *string, options *awscdk.BundlingOptions) *bool {
-	cmd := exec.Command("go", "build", "-o", *outputDir, ".")
+	cmd := exec.Command("go", "build", "-o", path.Join(*outputDir, "bootstrap"), ".")
 	var out bytes.Buffer
 	cmd.Stderr = &out
 	env := os.Environ()

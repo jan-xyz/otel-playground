@@ -1,18 +1,19 @@
 package main
 
 import (
+	"context"
 	"fmt"
 
+	"go.opentelemetry.io/contrib/instrumentation/github.com/aws/aws-lambda-go/otellambda/xrayconfig"
 	"go.opentelemetry.io/otel/attribute"
 	"go.opentelemetry.io/otel/exporters/stdout/stdoutmetric"
-	"go.opentelemetry.io/otel/exporters/stdout/stdouttrace"
 	metricsdk "go.opentelemetry.io/otel/sdk/metric"
 	"go.opentelemetry.io/otel/sdk/resource"
 	tracesdk "go.opentelemetry.io/otel/sdk/trace"
 	semconv "go.opentelemetry.io/otel/semconv/v1.4.0"
 )
 
-func buildProvider() (*tracesdk.TracerProvider, *metricsdk.MeterProvider, error) {
+func buildProvider(ctx context.Context) (*tracesdk.TracerProvider, *metricsdk.MeterProvider, error) {
 	res := resource.NewWithAttributes(
 		semconv.SchemaURL,
 		semconv.ServiceNameKey.String(service),
@@ -32,16 +33,10 @@ func buildProvider() (*tracesdk.TracerProvider, *metricsdk.MeterProvider, error)
 	)
 
 	// Create Trace exporter
-	exp, err := stdouttrace.New(stdouttrace.WithPrettyPrint())
+	tp, err := xrayconfig.NewTracerProvider(ctx)
 	if err != nil {
 		return nil, nil, fmt.Errorf("creating tace exporter: %w", err)
 	}
 
-	tp := tracesdk.NewTracerProvider(
-		// Always be sure to batch in production.
-		tracesdk.WithBatcher(exp),
-		// Record information about this application in a Resource.
-		tracesdk.WithResource(res),
-	)
 	return tp, mp, nil
 }
