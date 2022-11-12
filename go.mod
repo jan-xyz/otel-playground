@@ -15,6 +15,7 @@ require (
 )
 
 require (
+	github.com/aws/aws-lambda-go v1.34.1 // indirect
 	github.com/go-logr/logr v1.2.3 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/stretchr/testify v1.8.1 // indirect

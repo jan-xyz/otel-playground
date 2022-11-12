@@ -7,6 +7,7 @@ import (
 	"log"
 	"reflect"
 
+	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/sirupsen/logrus"
 	"github.com/uptrace/opentelemetry-go-extra/otellogrus"
 	"go.opentelemetry.io/otel"
@@ -111,6 +112,8 @@ func main() {
 	defer tp.ForceFlush(ctx)
 	otel.SetTracerProvider(tp)
 	metricsglobal.SetMeterProvider(mp)
+
+	lambda.StartWithOptions(Handle, lambda.WithContext(ctx))
 
 	Handle(ctx)
 }
