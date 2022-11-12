@@ -33,19 +33,6 @@ func NewInfraStack(scope constructs.Construct, id string, props *InfraStackProps
 			Bundling: &awscdk.BundlingOptions{
 				Local: &bundler{},
 				Image: awslambda.Runtime_GO_1_X().BundlingImage(),
-				Command: &[]*string{
-					jsii.String("go"),
-					jsii.String("build"),
-					jsii.String("-o"),
-					jsii.String("./asset-input"),
-					jsii.String("."),
-				},
-				Environment: &map[string]*string{
-					"GOOS":        jsii.String("linux"),
-					"GOARCH":      jsii.String("amd64"),
-					"CGO_ENABLED": jsii.String("0"),
-				},
-				User: jsii.String("root"),
 			},
 		}),
 		Handler: jsii.String("otel-playground"),
