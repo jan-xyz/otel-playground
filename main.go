@@ -34,6 +34,9 @@ func main() {
 		// sets the service correctly
 		semconv.ServiceNameKey.String(service),
 
+		// helps parse stack traces and errors
+		semconv.TelemetrySDKLanguageGo,
+
 		// others
 		semconv.DeploymentEnvironmentKey.String(environment),
 		attribute.Int64("id", id),
