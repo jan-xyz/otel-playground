@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"os"
-	"reflect"
 
 	"github.com/sirupsen/logrus"
 	"github.com/uptrace/opentelemetry-go-extra/otellogrus"
@@ -12,6 +11,7 @@ import (
 )
 
 func buildLogger() {
+	// hook to add logs to the span
 	otelhook := otellogrus.NewHook(otellogrus.WithLevels(
 		logrus.PanicLevel,
 		logrus.FatalLevel,
@@ -21,6 +21,8 @@ func buildLogger() {
 		logrus.DebugLevel,
 	))
 	logrus.AddHook(otelhook)
+
+	// hook to add tracing and context information to the logs
 	lhook := &hook{
 		levels: otelhook.Levels(),
 		ctxKeys: []fmt.Stringer{
@@ -56,49 +58,35 @@ func (h hook) Levels() []logrus.Level {
 }
 
 // took inspiration from https://github.com/uptrace/uptrace-go/blob/extra/otellogrus/v1.1.0/extra/otellogrus/otellogrus.go
-func (h hook) Fire(entry *logrus.Entry) error {
-	ctx := entry.Context
+func (h hook) Fire(e *logrus.Entry) error {
+	ctx := e.Context
 	if ctx == nil {
 		return nil
 	}
 
 	span := trace.SpanFromContext(ctx)
 
-	fields := logrus.Fields{
-		"trace_id": span.SpanContext().TraceID().String(),
-		"span_id":  span.SpanContext().SpanID().String(),
+	e.Data["trace_id"] = span.SpanContext().TraceID().String()
 
-		// required for correlating logs in x-ray to the correct span
-		"_X_AMAZN_TRACE_ID": os.Getenv("_X_AMZN_TRACE_ID"),
-	}
+	e.Data["span_id"] = span.SpanContext().SpanID().String()
+
+	// required for correlating logs in x-ray to the correct span
+	e.Data["_X_AMAZN_TRACE_ID"] = os.Getenv("_X_AMZN_TRACE_ID")
 
 	// adding custom fields from the context to the logs
 	for _, v := range h.ctxKeys {
-		fields[v.String()] = ctx.Value(v)
+		e.Data[v.String()] = ctx.Value(v)
 	}
 
-	if entry.Caller != nil {
-		if entry.Caller.Function != "" {
-			fields[string(semconv.CodeFunctionKey)] = entry.Caller.Function
+	if e.Caller != nil {
+		if e.Caller.Function != "" {
+			e.Data[string(semconv.CodeFunctionKey)] = e.Caller.Function
 		}
-		if entry.Caller.File != "" {
-			fields[string(semconv.CodeFilepathKey)] = entry.Caller.File
-			fields[string(semconv.CodeLineNumberKey)] = entry.Caller.Line
+		if e.Caller.File != "" {
+			e.Data[string(semconv.CodeFilepathKey)] = e.Caller.File
+			e.Data[string(semconv.CodeLineNumberKey)] = e.Caller.Line
 		}
 	}
-	for k, v := range entry.Data {
-		if k == "error" {
-			if err, ok := v.(error); ok {
-				typ := reflect.TypeOf(err).String()
-				fields[string(semconv.ExceptionTypeKey)] = typ
-				fields[string(semconv.ExceptionMessageKey)] = err.Error()
-				continue
-			}
-		}
-
-		fields[k] = v
-	}
-	*entry = *entry.WithFields(fields)
 
 	return nil
 }

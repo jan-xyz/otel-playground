@@ -22,7 +22,9 @@ func Handle(ctx context.Context, _ any) (any, error) {
 		log.Printf("counter failed: %s", err)
 	}
 	for i := 0; i < 10; i++ {
-		logrus.WithContext(ctx).WithField("iteration", i).Info("tick!")
+		logrus.WithContext(ctx).
+			WithField("iteration", i).
+			Info("tick!")
 		<-time.After(3 * time.Millisecond)
 		c.Add(ctx, 1)
 	}
