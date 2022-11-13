@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 	"reflect"
 
 	"github.com/sirupsen/logrus"
@@ -27,7 +28,7 @@ func buildLogger() {
 	}
 	logrus.AddHook(lhook)
 	logrus.SetReportCaller(true)
-	logrus.SetFormatter(&logrus.JSONFormatter{PrettyPrint: true})
+	logrus.SetFormatter(&logrus.JSONFormatter{})
 }
 
 type userID struct{}
@@ -64,8 +65,12 @@ func (h hook) Fire(entry *logrus.Entry) error {
 	fields := logrus.Fields{
 		"trace_id": span.SpanContext().TraceID().String(),
 		"span_id":  span.SpanContext().SpanID().String(),
+
+		// required for correlating logs in x-ray to the correct span
+		"_X_AMAZN_TRACE_ID": os.Getenv("_X_AMZN_TRACE_ID"),
 	}
 
+	// adding custom fields from the context to the logs
 	for _, v := range h.ctxKeys {
 		fields[v.String()] = ctx.Value(v)
 	}
