@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"log"
+	"time"
 
 	"github.com/sirupsen/logrus"
 	"go.opentelemetry.io/otel"
@@ -21,6 +22,7 @@ func Handle(ctx context.Context, _ any) (any, error) {
 		log.Printf("counter failed: %s", err)
 	}
 	for i := 0; i < 10; i++ {
+		<-time.After(3 * time.Millisecond)
 		c.Add(ctx, 1)
 	}
 

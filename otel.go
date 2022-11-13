@@ -2,41 +2,39 @@ package main
 
 import (
 	"context"
-	"fmt"
 
-	"go.opentelemetry.io/contrib/instrumentation/github.com/aws/aws-lambda-go/otellambda/xrayconfig"
-	"go.opentelemetry.io/otel/attribute"
-	"go.opentelemetry.io/otel/exporters/stdout/stdoutmetric"
-	metricsdk "go.opentelemetry.io/otel/sdk/metric"
-	"go.opentelemetry.io/otel/sdk/resource"
+	"go.opentelemetry.io/otel/exporters/otlp/otlpmetric/otlpmetricgrpc"
+	"go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc"
+	"go.opentelemetry.io/otel/metric/global"
+	"go.opentelemetry.io/otel/sdk/metric"
 	tracesdk "go.opentelemetry.io/otel/sdk/trace"
-	semconv "go.opentelemetry.io/otel/semconv/v1.4.0"
 )
 
-func buildProvider(ctx context.Context) (*tracesdk.TracerProvider, *metricsdk.MeterProvider, error) {
-	res := resource.NewWithAttributes(
-		semconv.SchemaURL,
-		semconv.ServiceNameKey.String(service),
-		attribute.String("environment", environment),
-		attribute.Int64("ID", id),
-	)
-
-	// Create Metrics exporter
-	m_exp, err := stdoutmetric.New()
+func buildProvider(ctx context.Context) (*tracesdk.TracerProvider, *metric.MeterProvider, error) {
+	// metrics
+	m_exp, err := otlpmetricgrpc.New(ctx)
 	if err != nil {
-		return nil, nil, fmt.Errorf("creating metric exporter: %w", err)
-	}
-	mp := metricsdk.NewMeterProvider(
-		metricsdk.WithReader(metricsdk.NewPeriodicReader(m_exp)),
-		// Record information about this application in a Resource.
-		metricsdk.WithResource(res),
-	)
-
-	// Create Trace exporter
-	tp, err := xrayconfig.NewTracerProvider(ctx)
-	if err != nil {
-		return nil, nil, fmt.Errorf("creating tace exporter: %w", err)
+		panic(err)
 	}
 
+	mp := metric.NewMeterProvider(metric.WithReader(metric.NewPeriodicReader(m_exp)))
+	defer func() {
+		if err = mp.Shutdown(ctx); err != nil {
+			panic(err)
+		}
+	}()
+	global.SetMeterProvider(mp)
+
+	// tracer
+	t_exp, err := otlptracegrpc.New(ctx)
+	if err != nil {
+		panic(err)
+	}
+	tp := tracesdk.NewTracerProvider(tracesdk.WithBatcher(t_exp))
+	defer func() {
+		if err = tp.Shutdown(ctx); err != nil {
+			panic(err)
+		}
+	}()
 	return tp, mp, nil
 }
