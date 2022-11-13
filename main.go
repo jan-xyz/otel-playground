@@ -8,6 +8,7 @@ import (
 	"go.opentelemetry.io/contrib/instrumentation/github.com/aws/aws-lambda-go/otellambda/xrayconfig"
 	"go.opentelemetry.io/contrib/propagators/aws/xray"
 	"go.opentelemetry.io/otel"
+	"go.opentelemetry.io/otel/attribute"
 	"go.opentelemetry.io/otel/exporters/otlp/otlpmetric/otlpmetricgrpc"
 	"go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc"
 	"go.opentelemetry.io/otel/metric/global"
@@ -28,15 +29,22 @@ func main() {
 	ctx := context.Background()
 	buildLogger()
 
-	res, err := resource.New(ctx, resource.WithAttributes(
+	res := resource.NewWithAttributes(
+		semconv.SchemaURL,
 		// sets the service correctly
 		semconv.ServiceNameKey.String(service),
-	))
-	if err != nil {
-		panic(err)
-	}
+
+		// others
+		semconv.DeploymentEnvironmentKey.String(environment),
+		attribute.Int64("id", id),
+	)
 	// metrics
-	m_exp, err := otlpmetricgrpc.New(ctx, otlpmetricgrpc.WithInsecure(), otlpmetricgrpc.WithEndpoint("0.0.0.0:4317"), otlpmetricgrpc.WithDialOption(grpc.WithBlock()))
+	m_exp, err := otlpmetricgrpc.New(ctx,
+		// communicate on localhost to the ADOT collector
+		otlpmetricgrpc.WithInsecure(),
+		otlpmetricgrpc.WithEndpoint("0.0.0.0:4317"),
+		otlpmetricgrpc.WithDialOption(grpc.WithBlock()),
+	)
 	if err != nil {
 		panic(err)
 	}
@@ -53,17 +61,22 @@ func main() {
 	global.SetMeterProvider(mp)
 
 	// tracer
-	t_exp, err := otlptracegrpc.New(ctx, otlptracegrpc.WithInsecure(), otlptracegrpc.WithEndpoint("0.0.0.0:4317"), otlptracegrpc.WithDialOption(grpc.WithBlock()))
+	t_exp, err := otlptracegrpc.New(ctx,
+		// communicate on localhost to the ADOT collector
+		otlptracegrpc.WithInsecure(),
+		otlptracegrpc.WithEndpoint("0.0.0.0:4317"),
+		otlptracegrpc.WithDialOption(grpc.WithBlock()),
+	)
 	if err != nil {
 		panic(err)
 	}
-	// required to generate xray compatible IDs
-	idg := xray.NewIDGenerator()
 	tp := trace.NewTracerProvider(
 		trace.WithResource(res),
 		trace.WithBatcher(t_exp),
 		trace.WithSampler(trace.AlwaysSample()),
-		trace.WithIDGenerator(idg),
+
+		// required to generate xray compatible IDs
+		trace.WithIDGenerator(xray.NewIDGenerator()),
 	)
 	defer func() {
 		if err = tp.Shutdown(ctx); err != nil {
@@ -74,6 +87,14 @@ func main() {
 
 	otel.SetTextMapPropagator(xray.Propagator{})
 
-	// Those options are required to properly extract the AWS traceID from the trigger event
-	lambda.StartWithOptions(otellambda.InstrumentHandler(Handle, xrayconfig.WithRecommendedOptions(tp)...))
+	lambda.StartWithOptions(
+		// wraps the lambda handler to inject the OTEL context
+		otellambda.InstrumentHandler(
+			Handle,
+			// options to properly extract the AWS traceID from the trigger event,
+			// flush the trace provide after each handler event,
+			// set the propagator, carrier and trace provider.
+			xrayconfig.WithRecommendedOptions(tp)...,
+		),
+	)
 }

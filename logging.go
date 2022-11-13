@@ -25,13 +25,18 @@ func buildLogger() {
 	// hook to add tracing and context information to the logs
 	lhook := &hook{
 		levels: otelhook.Levels(),
+		// these are context keys that will be added to each log-line
 		ctxKeys: []fmt.Stringer{
 			&reqID{},
 			&userID{},
 		},
 	}
 	logrus.AddHook(lhook)
+
+	// add caller information (Function, File, Line no) to logging entries
 	logrus.SetReportCaller(true)
+
+	// set to use JSON logging for easier parsing
 	logrus.SetFormatter(&logrus.JSONFormatter{})
 }
 
@@ -78,6 +83,9 @@ func (h hook) Fire(e *logrus.Entry) error {
 		e.Data[v.String()] = ctx.Value(v)
 	}
 
+	// add caller informaiton. To use thise you need to call
+	// 	logrus.SetReportCaller(true)
+	// when setting up the logger
 	if e.Caller != nil {
 		if e.Caller.Function != "" {
 			e.Data[string(semconv.CodeFunctionKey)] = e.Caller.Function
