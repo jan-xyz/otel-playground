@@ -17,6 +17,8 @@ func buildLogger() {
 		logrus.FatalLevel,
 		logrus.ErrorLevel,
 		logrus.WarnLevel,
+		logrus.InfoLevel,
+		logrus.DebugLevel,
 	))
 	logrus.AddHook(otelhook)
 	lhook := &hook{
