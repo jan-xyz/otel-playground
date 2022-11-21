@@ -80,7 +80,9 @@ func (h hook) Fire(e *logrus.Entry) error {
 
 	// adding custom fields from the context to the logs
 	for _, v := range h.ctxKeys {
-		e.Data[v.String()] = ctx.Value(v)
+		if value := ctx.Value(v); value != nil {
+			e.Data[v.String()] = value
+		}
 	}
 
 	// add caller informaiton. To use thise you need to call
