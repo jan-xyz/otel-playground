@@ -7,7 +7,6 @@ receivers:
 exporters:
   awsemf:
   awsxray:
-  logging:
 
 service:
   pipelines:
@@ -16,4 +15,5 @@ service:
       exporters: [awsxray]
     metrics:
       receivers: [otlp]
-      exporters: [awsemf, logging]
+      # need to add awsemf for metrics, default is logging
+      exporters: [awsemf]
