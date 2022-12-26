@@ -1,0 +1,14 @@
+name: PR
+on:
+  pull_request:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git clone the repository
+        uses: actions/checkout@v1
+
+      - uses: actions/setup-node@v2
+
+      - run: yarn cdk synth
