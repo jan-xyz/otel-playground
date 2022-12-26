@@ -40,7 +40,8 @@ func NewInfraStack(scope constructs.Construct, id string, props *InfraStackProps
 		Layers: &[]awslambda.ILayerVersion{awslambda.LayerVersion_FromLayerVersionArn(
 			stack,
 			jsii.String("adot"),
-			jsii.String("arn:aws:lambda:eu-central-1:901920570463:layer:aws-otel-collector-amd64-ver-0-62-1:1"),
+			// layer arn: arn:aws:lambda:<region>:901920570463:layer:aws-otel-collector-<architecture>-ver-0-66-0:1
+			jsii.String("arn:aws:lambda:eu-central-1:901920570463:layer:aws-otel-collector-arm64-ver-0-66-0:1"),
 		)},
 		Tracing: awslambda.Tracing_ACTIVE,
 	})
