@@ -3,7 +3,7 @@ on:
   pull_request:
 
 jobs:
-  deploy:
+  synth:
     runs-on: ubuntu-latest
     steps:
       - name: Git clone the repository
@@ -11,4 +11,4 @@ jobs:
 
       - uses: actions/setup-node@v2
 
-      - run: yarn cdk synth
+      - run: npm exec cdk synth
