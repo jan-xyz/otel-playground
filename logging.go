@@ -10,7 +10,7 @@ import (
 	"go.opentelemetry.io/otel/trace"
 )
 
-func buildLogger() {
+func setupLogging() {
 	// hook to add logs to the span
 	otelhook := otellogrus.NewHook(otellogrus.WithLevels(
 		logrus.PanicLevel,
