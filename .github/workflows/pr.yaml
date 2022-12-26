@@ -12,3 +12,4 @@ jobs:
       - uses: actions/setup-node@v2
 
       - run: npm exec cdk synth
+        working-directory: ./infra
