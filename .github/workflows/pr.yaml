@@ -1,0 +1,15 @@
+name: PR
+on:
+  pull_request:
+
+jobs:
+  synth:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git clone the repository
+        uses: actions/checkout@v1
+
+      - uses: actions/setup-node@v2
+
+      - run: npm exec cdk synth
+        working-directory: ./infra
