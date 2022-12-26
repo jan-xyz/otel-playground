@@ -14,6 +14,11 @@ import (
 	"github.com/aws/jsii-runtime-go"
 )
 
+const (
+	otelCollectorVersion = "0-66-0"
+	architecture         = "arm64"
+)
+
 type InfraStackProps struct {
 	awscdk.StackProps
 }
@@ -25,7 +30,11 @@ func NewInfraStack(scope constructs.Construct, id string, props *InfraStackProps
 	}
 	stack := awscdk.NewStack(scope, &id, &sprops)
 
-	// The code that defines your stack goes here
+	adotLayer := fmt.Sprintf("arn:aws:lambda:%s:901920570463:layer:aws-otel-collector-%s-ver-%s:1", *stack.Region(), architecture, otelCollectorVersion)
+	lambdaArch := awslambda.Architecture_X86_64()
+	if architecture == "arm64" {
+		lambdaArch = awslambda.Architecture_ARM_64()
+	}
 
 	_ = awslambda.NewFunction(stack, jsii.String("otel-test"), &awslambda.FunctionProps{
 		Code: awslambda.AssetCode_FromAsset(jsii.String("../"), &awss3assets.AssetOptions{
@@ -36,14 +45,17 @@ func NewInfraStack(scope constructs.Construct, id string, props *InfraStackProps
 		}),
 		Handler:      jsii.String("bootstrap"),
 		Runtime:      awslambda.Runtime_PROVIDED_AL2(),
-		Architecture: awslambda.Architecture_ARM_64(),
+		Architecture: lambdaArch,
 		Layers: &[]awslambda.ILayerVersion{awslambda.LayerVersion_FromLayerVersionArn(
 			stack,
 			jsii.String("adot"),
 			// layer arn: arn:aws:lambda:<region>:901920570463:layer:aws-otel-collector-<architecture>-ver-0-66-0:1
-			jsii.String("arn:aws:lambda:eu-central-1:901920570463:layer:aws-otel-collector-arm64-ver-0-66-0:1"),
+			&adotLayer,
 		)},
 		Tracing: awslambda.Tracing_ACTIVE,
+		Environment: &map[string]*string{
+			"OPENTELEMETRY_COLLECTOR_CONFIG_FILE": jsii.String("/var/task/collector.yaml"),
+		},
 	})
 	return stack
 }
@@ -65,14 +77,25 @@ func main() {
 type bundler struct{}
 
 func (bundler) TryBundle(outputDir *string, options *awscdk.BundlingOptions) *bool {
-	cmd := exec.Command("go", "build", "-o", path.Join(*outputDir, "bootstrap"), ".")
+	// bundle binary
+	cmd := exec.Command("cp", "collector.yaml", *outputDir)
 	var out bytes.Buffer
 	cmd.Stderr = &out
-	env := os.Environ()
-	env = append(env, "GOOS=linux", "GOARCH=arm64")
-	cmd.Env = env
 	cmd.Dir = ".."
 	err := cmd.Run()
+	if err != nil {
+		fmt.Println("failed to copy:", err, out.String())
+		return jsii.Bool(false)
+
+	}
+	// bundle collector.yaml
+	cmd = exec.Command("go", "build", "-o", path.Join(*outputDir, "bootstrap"), ".")
+	cmd.Stderr = &out
+	env := os.Environ()
+	env = append(env, "GOOS=linux", fmt.Sprintf("GOARCH=%s", architecture))
+	cmd.Env = env
+	cmd.Dir = ".."
+	err = cmd.Run()
 	if err != nil {
 		fmt.Println("failed to build:", err, out.String())
 		return jsii.Bool(false)
