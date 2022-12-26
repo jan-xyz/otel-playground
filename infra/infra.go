@@ -34,8 +34,9 @@ func NewInfraStack(scope constructs.Construct, id string, props *InfraStackProps
 				Image: awslambda.Runtime_PROVIDED_AL2().BundlingImage(),
 			},
 		}),
-		Handler: jsii.String("bootstrap"),
-		Runtime: awslambda.Runtime_PROVIDED_AL2(),
+		Handler:      jsii.String("bootstrap"),
+		Runtime:      awslambda.Runtime_PROVIDED_AL2(),
+		Architecture: awslambda.Architecture_ARM_64(),
 		Layers: &[]awslambda.ILayerVersion{awslambda.LayerVersion_FromLayerVersionArn(
 			stack,
 			jsii.String("adot"),
@@ -67,7 +68,7 @@ func (bundler) TryBundle(outputDir *string, options *awscdk.BundlingOptions) *bo
 	var out bytes.Buffer
 	cmd.Stderr = &out
 	env := os.Environ()
-	env = append(env, "GOOS=linux", "GOARCH=amd64")
+	env = append(env, "GOOS=linux", "GOARCH=arm64")
 	cmd.Env = env
 	cmd.Dir = ".."
 	err := cmd.Run()
