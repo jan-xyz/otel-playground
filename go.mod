@@ -8,7 +8,7 @@ require (
 	github.com/uptrace/opentelemetry-go-extra/otellogrus v0.1.17
 	go.opentelemetry.io/contrib/instrumentation/github.com/aws/aws-lambda-go/otellambda v0.37.0
 	go.opentelemetry.io/contrib/instrumentation/github.com/aws/aws-lambda-go/otellambda/xrayconfig v0.37.0
-	go.opentelemetry.io/contrib/propagators/aws v1.12.0
+	go.opentelemetry.io/contrib/propagators/aws v1.13.0
 	go.opentelemetry.io/otel v1.12.0
 	go.opentelemetry.io/otel/exporters/otlp/otlpmetric/otlpmetricgrpc v0.34.0
 	go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc v1.11.2
