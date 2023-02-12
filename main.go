@@ -3,7 +3,10 @@ package main
 import (
 	"context"
 
+	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
+	"github.com/jan-xyz/box"
+	awslambdago "github.com/jan-xyz/box/handler/github.com/aws/aws-lambda-go"
 	"go.opentelemetry.io/contrib/instrumentation/github.com/aws/aws-lambda-go/otellambda"
 	"go.opentelemetry.io/contrib/instrumentation/github.com/aws/aws-lambda-go/otellambda/xrayconfig"
 	"go.opentelemetry.io/otel/attribute"
@@ -37,11 +40,23 @@ func main() {
 	setupMetrics(ctx, res)
 	tp := setupTracing(ctx, res)
 
+	ep := box.Chain(
+		tracingMiddleware,
+		loggingMiddleware,
+	)(Endpoint)
+
+	handler := awslambdago.NewAPIGatewayHandler(
+		func(_ *events.APIGatewayProxyRequest) (string, error) { return "", nil },
+		func(_ string) (*events.APIGatewayProxyResponse, error) { return nil, nil },
+		func(err error) (*events.APIGatewayProxyResponse, error) { return nil, nil },
+		ep,
+	)
+
 	// Setup Lambda
 	lambda.StartWithOptions(
 		// wraps the lambda handler to inject the OTEL context
 		otellambda.InstrumentHandler(
-			Handle,
+			handler.Handle,
 			// options to properly extract the AWS traceID from the trigger event,
 			// flush the trace provide after each handler event,
 			// set the propagator, carrier and trace provider.
