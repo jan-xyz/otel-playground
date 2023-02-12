@@ -30,11 +30,6 @@ func setupTracing(ctx context.Context, res *resource.Resource) *trace.TracerProv
 
 		trace.WithIDGenerator(xray.NewIDGenerator()),
 	)
-	defer func() {
-		if err = tp.Shutdown(ctx); err != nil {
-			panic(err)
-		}
-	}()
 	otel.SetTracerProvider(tp)
 
 	otel.SetTextMapPropagator(xray.Propagator{})

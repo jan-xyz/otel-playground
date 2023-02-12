@@ -37,12 +37,12 @@ func main() {
 
 	// Setup instrumentation
 	setupLogging()
-	setupMetrics(ctx, res)
+	mp := setupMetrics(ctx, res)
 	tp := setupTracing(ctx, res)
 
 	ep := box.Chain(
-		tracingMiddleware,
-		loggingMiddleware,
+		tracingMiddleware(),
+		loggingMiddleware(),
 	)(Endpoint)
 
 	handler := awslambdago.NewAPIGatewayHandler(
@@ -51,6 +51,17 @@ func main() {
 		func(err error) (*events.APIGatewayProxyResponse, error) { return nil, nil },
 		ep,
 	)
+
+	defer func() {
+		if err := tp.Shutdown(ctx); err != nil {
+			panic(err)
+		}
+	}()
+	defer func() {
+		if err := mp.Shutdown(ctx); err != nil {
+			panic(err)
+		}
+	}()
 
 	// Setup Lambda
 	lambda.StartWithOptions(
