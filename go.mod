@@ -7,7 +7,7 @@ require (
 	github.com/jan-xyz/box v0.1.0
 	github.com/sirupsen/logrus v1.9.0
 	github.com/uptrace/opentelemetry-go-extra/otellogrus v0.1.17
-	go.opentelemetry.io/contrib/instrumentation/github.com/aws/aws-lambda-go/otellambda v0.37.0
+	go.opentelemetry.io/contrib/instrumentation/github.com/aws/aws-lambda-go/otellambda v0.40.0
 	go.opentelemetry.io/contrib/instrumentation/github.com/aws/aws-lambda-go/otellambda/xrayconfig v0.37.0
 	go.opentelemetry.io/contrib/propagators/aws v1.15.0
 	go.opentelemetry.io/otel v1.14.0
