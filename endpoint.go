@@ -47,7 +47,7 @@ func Endpoint(ctx context.Context, _ string) (string, error) {
 
 func process(ctx context.Context, i int) {
 	meter := metricsglobal.Meter("foo")
-	c, err := meter.SyncInt64().Counter("request_handled")
+	c, err := meter.Int64Counter("request_handled")
 	if err != nil {
 		log.Printf("counter failed: %s", err)
 	}
