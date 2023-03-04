@@ -6,7 +6,7 @@ import (
 
 	"github.com/sirupsen/logrus"
 	"github.com/uptrace/opentelemetry-go-extra/otellogrus"
-	semconv "go.opentelemetry.io/otel/semconv/v1.4.0"
+	semconv "go.opentelemetry.io/otel/semconv/v1.18.0"
 	"go.opentelemetry.io/otel/trace"
 )
 
