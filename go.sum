@@ -155,10 +155,10 @@ github.com/stretchr/testify v1.4.0/go.mod h1:j7eGeouHqKxXV5pUuKE4zz7dFj8WfuZ+81P
 github.com/stretchr/testify v1.5.1/go.mod h1:5W2xD1RspED5o8YsWQXVCued0rvSQ+mT+I5cxcmMvtA=
 github.com/stretchr/testify v1.7.0/go.mod h1:6Fq8oRcR53rry900zMqJjRRixrwX3KX962/h/Wwjteg=
 github.com/stretchr/testify v1.8.2 h1:+h33VjcLVPDHtOdpUCuF+7gSuG3yGIftsP1YvFihtJ8=
-github.com/uptrace/opentelemetry-go-extra/otellogrus v0.1.17 h1:FeCTrRenM5ucXWMpq3u4Wh2nWov9Co68aM2gINGlJRU=
-github.com/uptrace/opentelemetry-go-extra/otellogrus v0.1.17/go.mod h1:CXKQH9iiW89FahjDENpC7ES9iUQTIyTE2V2aQlLQme8=
-github.com/uptrace/opentelemetry-go-extra/otelutil v0.1.17 h1:fcKgoKi1dGCFr1zTP0mKzZDGcMliY2hBmBjpGVf/ee4=
-github.com/uptrace/opentelemetry-go-extra/otelutil v0.1.17/go.mod h1:wl/W+O/95rYcMa67D9qQ+8/IJEztbyYSUkdT7L6t+p4=
+github.com/uptrace/opentelemetry-go-extra/otellogrus v0.1.21 h1:OXsouNDvuET5o1A4uvoCnAXuuNke8JlfZWceciyUlC8=
+github.com/uptrace/opentelemetry-go-extra/otellogrus v0.1.21/go.mod h1:Xm3wlRGm5xzdAGPOvqydXPiGj0Da1q0OlUNm7Utoda4=
+github.com/uptrace/opentelemetry-go-extra/otelutil v0.1.21 h1:HCqo51kNF8wxDMDhxcN5S6DlfZXigMtptRpkvjBCeVc=
+github.com/uptrace/opentelemetry-go-extra/otelutil v0.1.21/go.mod h1:2MNqrUmDrt5E0glMuoJI/9FyGVpBKo1FqjSH60UOZFg=
 github.com/yuin/goldmark v1.1.25/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9decYSb74=
 github.com/yuin/goldmark v1.1.27/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9decYSb74=
 github.com/yuin/goldmark v1.1.32/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9decYSb74=
