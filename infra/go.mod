@@ -4,7 +4,7 @@ go 1.18
 
 require (
 	github.com/aws/aws-cdk-go/awscdk/v2 v2.67.0
-	github.com/aws/constructs-go/constructs/v10 v10.1.267
+	github.com/aws/constructs-go/constructs/v10 v10.1.299
 	github.com/aws/jsii-runtime-go v1.79.0
 )
 
