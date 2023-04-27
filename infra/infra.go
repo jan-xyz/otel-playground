@@ -15,7 +15,7 @@ import (
 )
 
 const (
-	otelCollectorVersion = "0-66-0"
+	otelCollectorVersion = "0-74-0"
 	architecture         = "arm64"
 )
 

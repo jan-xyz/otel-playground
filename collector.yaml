@@ -6,6 +6,7 @@ receivers:
 
 exporters:
   awsemf:
+    retain_initial_value_of_delta_metric: true
   awsxray:
 
 service:
