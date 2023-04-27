@@ -13,7 +13,6 @@ import (
 func setupMetrics(ctx context.Context, res *resource.Resource) *metric.MeterProvider {
 	// communicate on localhost to the ADOT collector
 	m_exp, err := otlpmetricgrpc.New(ctx,
-
 		otlpmetricgrpc.WithInsecure(),
 		otlpmetricgrpc.WithEndpoint("0.0.0.0:4317"),
 		otlpmetricgrpc.WithDialOption(grpc.WithBlock()),

@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"errors"
-	"log"
 	"time"
 
 	"github.com/jan-xyz/box"
@@ -38,24 +37,21 @@ var loggingMiddleware = func() box.Middleware[string, string] {
 }
 
 func Endpoint(ctx context.Context, _ string) (string, error) {
+	meter := metricsglobal.Meter("")
 	for i := 0; i < 10; i++ {
 		process(ctx, i)
 	}
-
+	if c, err := meter.Int64Counter("request_handled"); err == nil {
+		c.Add(ctx, 1)
+	}
 	return "", nil
 }
 
 func process(ctx context.Context, i int) {
-	meter := metricsglobal.Meter("foo")
-	c, err := meter.Int64Counter("request_handled")
-	if err != nil {
-		log.Printf("counter failed: %s", err)
-	}
 	ctx, span := otel.Tracer(service).Start(ctx, "proccessing")
 	defer span.End()
 	logrus.WithContext(ctx).
 		WithField("iteration", i).
 		Info("tick!")
-	c.Add(ctx, 1)
 	<-time.After(3 * time.Millisecond)
 }

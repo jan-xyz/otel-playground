@@ -71,7 +71,11 @@ func main() {
 			// options to properly extract the AWS traceID from the trigger event,
 			// flush the trace provide after each handler event,
 			// set the propagator, carrier and trace provider.
-			xrayconfig.WithRecommendedOptions(tp)...,
+			xrayconfig.WithEventToCarrier(),
+			xrayconfig.WithPropagator(),
+			otellambda.WithTracerProvider(tp),
+			otellambda.WithFlusher(tp),
+			otellambda.WithFlusher(mp),
 		),
 	)
 }
