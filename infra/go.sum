@@ -4,8 +4,8 @@ github.com/aws/aws-cdk-go/awscdk/v2 v2.72.1 h1:6BmCs6BEbCbbJPoqQEbQ2/tvEYA0JG5L8
 github.com/aws/aws-cdk-go/awscdk/v2 v2.72.1/go.mod h1:9iJvj+6EXwEG0W6ynS5N960MXMUD3VMhVKe12UkXTOc=
 github.com/aws/constructs-go/constructs/v10 v10.1.299 h1:IK+Ye/EnueclScfLsMbID1rMfOYN4nd3JxSFcAo0F98=
 github.com/aws/constructs-go/constructs/v10 v10.1.299/go.mod h1:5cQJ5iQD1rhDPczS+iQ9ItQXjBjQGnISqscErm9lT34=
-github.com/aws/jsii-runtime-go v1.79.0 h1:iYNJR1RCCba6N/vrzT9pNKC1gPDbLYGJV1YLn5pqTPA=
-github.com/aws/jsii-runtime-go v1.79.0/go.mod h1:4IGCggNIyxe54k/INmsXrEjx9hUYQGw2W7a1I5x6l78=
+github.com/aws/jsii-runtime-go v1.80.0 h1:INbbvOdx/UV/+qH4cGmKStCWL4SrEoRwF34nR/3b8tE=
+github.com/aws/jsii-runtime-go v1.80.0/go.mod h1:bV9T+Vxxczx5bK5CKZraDQS+enxb1sgdjAo/AhePGlM=
 github.com/cdklabs/awscdk-asset-awscli-go/awscliv1/v2 v2.2.97 h1:djh/IxEOenTcd3r5PqdI/oG+0DejpcDFgc7YzCjVQW4=
 github.com/cdklabs/awscdk-asset-awscli-go/awscliv1/v2 v2.2.97/go.mod h1:PkuOc2PJS/vvkezj7ROedaZ9RrIH6BFy07izhAn4ZQ8=
 github.com/cdklabs/awscdk-asset-kubectl-go/kubectlv20/v2 v2.1.1 h1:l5N27aCCjAB5cgW5pI4/ujnasPL8hUcJ9KBxrKk6UiQ=
@@ -13,8 +13,8 @@ github.com/cdklabs/awscdk-asset-kubectl-go/kubectlv20/v2 v2.1.1/go.mod h1:CvFHBo
 github.com/cdklabs/awscdk-asset-node-proxy-agent-go/nodeproxyagentv5/v2 v2.0.77 h1:Dz48ATZZyiWfGc93tUyCZh7Aoquno5G7g/azPYnlRdI=
 github.com/cdklabs/awscdk-asset-node-proxy-agent-go/nodeproxyagentv5/v2 v2.0.77/go.mod h1:xuNRPgwJuKObjPrOjEI7kv7A0Z8F1lNiwSdCEFJQfMc=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
-github.com/mattn/go-isatty v0.0.17 h1:BTarxUcIeDqL27Mc+vyvdWYSL28zpIhv3RoTdsLMPng=
-github.com/mattn/go-isatty v0.0.17/go.mod h1:kYGgaQfpe5nmfYZH+SKPsOc2e4SrIfOl2e/yFXSvRLM=
+github.com/mattn/go-isatty v0.0.18 h1:DOKFKCQ7FNG2L1rbrmstDN4QVRdS89Nkh85u68Uwp98=
+github.com/mattn/go-isatty v0.0.18/go.mod h1:W+V8PltTTMOvKvAeJH7IuucS94S2C6jfK/D7dTCTo3Y=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
 github.com/stretchr/testify v1.8.1 h1:w7B6lhMri9wdJUVmEZPGGhZzrYTPvgJArz7wNPgYKsk=
 github.com/yuin/goldmark v1.4.13 h1:fVcFKWvrslecOb/tg+Cc05dkeYx540o0FuFt3nUVDoE=
@@ -32,7 +32,6 @@ golang.org/x/sync v0.0.0-20190423024810-112230192c58/go.mod h1:RxMgew5VJxzue5/jJ
 golang.org/x/sync v0.1.0 h1:wsuoTGHzEhffawBOhz5CYhcrV4IdKZbEyZjBMuTp12o=
 golang.org/x/sys v0.0.0-20190215142949-d0b11bdaac8a/go.mod h1:STP8DvDyc/dI5b8T5hshtkjS+E42TnysNCUPdjciGhY=
 golang.org/x/sys v0.0.0-20190412213103-97732733099d/go.mod h1:h1NjWce9XRLGQEsW7wpKNCjG9DtNlClVuFLEZdDNbEs=
-golang.org/x/sys v0.0.0-20220811171246-fbc7d0a398ab/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=
 golang.org/x/sys v0.6.0 h1:MVltZSvRTcU2ljQOhs94SXPftV6DCNnZViHeQps87pQ=
 golang.org/x/sys v0.6.0/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=
 golang.org/x/text v0.3.0/go.mod h1:NqM8EUOU14njkJ3fqMW+pc6Ldnwhi/IjpwHt7yyuwOQ=
