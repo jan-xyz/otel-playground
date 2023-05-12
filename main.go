@@ -67,7 +67,7 @@ func main() {
 	lambda.StartWithOptions(
 		// wraps the lambda handler to inject the OTEL context
 		otellambda.InstrumentHandler(
-			handler.Handle,
+			handler,
 			// options to properly extract the AWS traceID from the trigger event,
 			// flush the trace provide after each handler event,
 			// set the propagator, carrier and trace provider.
