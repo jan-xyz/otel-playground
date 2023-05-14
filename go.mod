@@ -4,7 +4,7 @@ go 1.19
 
 require (
 	github.com/aws/aws-lambda-go v1.41.0
-	github.com/jan-xyz/box v0.2.1
+	github.com/jan-xyz/box v0.2.3
 	github.com/sirupsen/logrus v1.9.0
 	github.com/uptrace/opentelemetry-go-extra/otellogrus v0.2.0
 	go.opentelemetry.io/contrib/instrumentation/github.com/aws/aws-lambda-go/otellambda v0.41.1
