@@ -8,7 +8,6 @@ import (
 	"github.com/jan-xyz/box"
 	"github.com/sirupsen/logrus"
 	"go.opentelemetry.io/otel"
-	metricsglobal "go.opentelemetry.io/otel/metric/global"
 )
 
 var tracingMiddleware = func() box.Middleware[string, string] {
@@ -37,7 +36,7 @@ var loggingMiddleware = func() box.Middleware[string, string] {
 }
 
 func Endpoint(ctx context.Context, _ string) (string, error) {
-	meter := metricsglobal.Meter("")
+	meter := otel.Meter("")
 	for i := 0; i < 10; i++ {
 		process(ctx, i)
 	}

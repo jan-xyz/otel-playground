@@ -3,8 +3,8 @@ package main
 import (
 	"context"
 
+	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/exporters/otlp/otlpmetric/otlpmetricgrpc"
-	"go.opentelemetry.io/otel/metric/global"
 	"go.opentelemetry.io/otel/sdk/metric"
 	"go.opentelemetry.io/otel/sdk/resource"
 	"google.golang.org/grpc"
@@ -25,7 +25,7 @@ func setupMetrics(ctx context.Context, res *resource.Resource) *metric.MeterProv
 		metric.WithReader(metric.NewPeriodicReader(m_exp)),
 		metric.WithResource(res),
 	)
-	global.SetMeterProvider(mp)
+	otel.SetMeterProvider(mp)
 
 	return mp
 }
