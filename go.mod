@@ -7,8 +7,8 @@ require (
 	github.com/jan-xyz/box v0.2.3
 	github.com/sirupsen/logrus v1.9.3
 	github.com/uptrace/opentelemetry-go-extra/otellogrus v0.2.0
-	go.opentelemetry.io/contrib/instrumentation/github.com/aws/aws-lambda-go/otellambda v0.41.1
-	go.opentelemetry.io/contrib/instrumentation/github.com/aws/aws-lambda-go/otellambda/xrayconfig v0.41.1
+	go.opentelemetry.io/contrib/instrumentation/github.com/aws/aws-lambda-go/otellambda v0.42.0
+	go.opentelemetry.io/contrib/instrumentation/github.com/aws/aws-lambda-go/otellambda/xrayconfig v0.42.0
 	go.opentelemetry.io/contrib/propagators/aws v1.17.0
 	go.opentelemetry.io/otel v1.16.0
 	go.opentelemetry.io/otel/exporters/otlp/otlpmetric/otlpmetricgrpc v0.39.0
@@ -27,7 +27,7 @@ require (
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.16.0 // indirect
 	github.com/stretchr/testify v1.8.4 // indirect
 	github.com/uptrace/opentelemetry-go-extra/otelutil v0.2.0 // indirect
-	go.opentelemetry.io/contrib/detectors/aws/lambda v0.41.1 // indirect
+	go.opentelemetry.io/contrib/detectors/aws/lambda v0.42.0 // indirect
 	go.opentelemetry.io/otel/exporters/otlp/internal/retry v1.16.0 // indirect
 	go.opentelemetry.io/otel/exporters/otlp/otlpmetric v0.39.0 // indirect
 	go.opentelemetry.io/otel/exporters/otlp/otlptrace v1.16.0 // indirect
