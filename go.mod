@@ -4,7 +4,7 @@ go 1.19
 
 require (
 	github.com/aws/aws-lambda-go v1.41.0
-	github.com/jan-xyz/box v0.2.3
+	github.com/jan-xyz/box v0.2.5
 	github.com/sirupsen/logrus v1.9.3
 	github.com/uptrace/opentelemetry-go-extra/otellogrus v0.2.2
 	go.opentelemetry.io/contrib/instrumentation/github.com/aws/aws-lambda-go/otellambda v0.42.0
@@ -25,7 +25,6 @@ require (
 	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/golang/protobuf v1.5.3 // indirect
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.16.0 // indirect
-	github.com/stretchr/testify v1.8.4 // indirect
 	github.com/uptrace/opentelemetry-go-extra/otelutil v0.2.2 // indirect
 	go.opentelemetry.io/contrib/detectors/aws/lambda v0.42.0 // indirect
 	go.opentelemetry.io/otel/exporters/otlp/internal/retry v1.16.0 // indirect
