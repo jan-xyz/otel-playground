@@ -135,8 +135,8 @@ github.com/grpc-ecosystem/grpc-gateway/v2 v2.16.0/go.mod h1:YN5jB8ie0yfIUg6VvR9K
 github.com/hashicorp/golang-lru v0.5.0/go.mod h1:/m3WP610KZHVQ1SGc6re/UDhFvYD7pJ4Ao+sR/qLZy8=
 github.com/hashicorp/golang-lru v0.5.1/go.mod h1:/m3WP610KZHVQ1SGc6re/UDhFvYD7pJ4Ao+sR/qLZy8=
 github.com/ianlancetaylor/demangle v0.0.0-20181102032728-5e5cf60278f6/go.mod h1:aSSvb/t6k1mPoxDqO4vJh6VOCGPwU4O0C2/Eqndh1Sc=
-github.com/jan-xyz/box v0.2.3 h1:IB9dBFCjObTiBP6P821N7SXFWxSVjjC0yzVAIll+47g=
-github.com/jan-xyz/box v0.2.3/go.mod h1:70K/2cuxOWYOuKwkT70h7Opvp1SJtL0AsBDvwbsK01w=
+github.com/jan-xyz/box v0.2.5 h1:N6ihiy6b49Cn3nLCLW4qLCZt7Ew1s7nc/9Jz6zlCb48=
+github.com/jan-xyz/box v0.2.5/go.mod h1:OJ5wSjRcckEp2/MKdtQpYxQFATjfvnaE5BDfSWsZmjU=
 github.com/jstemmer/go-junit-report v0.0.0-20190106144839-af01ea7f8024/go.mod h1:6v2b51hI/fHJwM22ozAgKL4VKDeJcHhJFhtBdhmNjmU=
 github.com/jstemmer/go-junit-report v0.9.1/go.mod h1:Brl9GWCQeLvo8nXZwPNNblvFj/XSXhF0NWZEnDohbsk=
 github.com/kisielk/gotool v1.0.0/go.mod h1:XhKaO+MFFWcvkIS/tQcRk01m1F5IRFswLeQ+oQHNcck=
@@ -156,7 +156,6 @@ github.com/stretchr/testify v1.4.0/go.mod h1:j7eGeouHqKxXV5pUuKE4zz7dFj8WfuZ+81P
 github.com/stretchr/testify v1.5.1/go.mod h1:5W2xD1RspED5o8YsWQXVCued0rvSQ+mT+I5cxcmMvtA=
 github.com/stretchr/testify v1.7.0/go.mod h1:6Fq8oRcR53rry900zMqJjRRixrwX3KX962/h/Wwjteg=
 github.com/stretchr/testify v1.8.4 h1:CcVxjf3Q8PM0mHUKJCdn+eZZtm5yQwehR5yeSVQQcUk=
-github.com/stretchr/testify v1.8.4/go.mod h1:sz/lmYIOXD/1dqDmKjjqLyZ2RngseejIcXlSw2iwfAo=
 github.com/uptrace/opentelemetry-go-extra/otellogrus v0.2.2 h1:s3quVevwQlgEMCkvscS/VHo92amtyMzRfcuOZqfevrM=
 github.com/uptrace/opentelemetry-go-extra/otellogrus v0.2.2/go.mod h1:IJLBT7ItgUACTEoq6BEw/9HwHWL4BiPirYgKhZS83Lg=
 github.com/uptrace/opentelemetry-go-extra/otelutil v0.2.2 h1:CNznWHkrbA6o1q2H/BsH4tIHf4zbKNtndeoV+AH8z0U=
