@@ -24,6 +24,6 @@ updates:
     schedule:
       interval: "monthly"
     groups:
-      otel:
+      aws:
         patterns:
           - "github.com/aws/*"
