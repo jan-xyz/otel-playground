@@ -13,7 +13,17 @@ updates:
     directory: "/"
     schedule:
       interval: "monthly"
+    groups:
+      otel:
+        patterns:
+          - "go.opentelemetry.io/*"
+
+
   - package-ecosystem: "gomod"
     directory: "/infra/"
     schedule:
       interval: "monthly"
+    groups:
+      otel:
+        patterns:
+          - "github.com/aws/*"
