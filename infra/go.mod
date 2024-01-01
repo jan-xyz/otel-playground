@@ -3,9 +3,9 @@ module infra
 go 1.18
 
 require (
-	github.com/aws/aws-cdk-go/awscdk/v2 v2.112.0
+	github.com/aws/aws-cdk-go/awscdk/v2 v2.117.0
 	github.com/aws/constructs-go/constructs/v10 v10.3.0
-	github.com/aws/jsii-runtime-go v1.92.0
+	github.com/aws/jsii-runtime-go v1.93.0
 )
 
 require (
@@ -20,5 +20,5 @@ require (
 	golang.org/x/lint v0.0.0-20210508222113-6edffad5e616 // indirect
 	golang.org/x/mod v0.14.0 // indirect
 	golang.org/x/sys v0.14.0 // indirect
-	golang.org/x/tools v0.15.0 // indirect
+	golang.org/x/tools v0.16.0 // indirect
 )
