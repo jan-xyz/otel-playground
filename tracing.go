@@ -8,7 +8,6 @@ import (
 	"go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc"
 	"go.opentelemetry.io/otel/sdk/resource"
 	"go.opentelemetry.io/otel/sdk/trace"
-	"google.golang.org/grpc"
 )
 
 func setupTracing(ctx context.Context, res *resource.Resource) *trace.TracerProvider {
@@ -18,7 +17,6 @@ func setupTracing(ctx context.Context, res *resource.Resource) *trace.TracerProv
 
 		otlptracegrpc.WithInsecure(),
 		otlptracegrpc.WithEndpoint("0.0.0.0:4317"),
-		otlptracegrpc.WithDialOption(grpc.WithBlock()),
 	)
 	if err != nil {
 		panic(err)

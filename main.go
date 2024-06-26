@@ -6,7 +6,7 @@ import (
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/jan-xyz/box"
-	awslambdago "github.com/jan-xyz/box/handler/github.com/aws/aws-lambda-go"
+	awslambdago "github.com/jan-xyz/box/transports/github.com/aws/aws-lambda-go"
 	"go.opentelemetry.io/contrib/instrumentation/github.com/aws/aws-lambda-go/otellambda"
 	"go.opentelemetry.io/contrib/instrumentation/github.com/aws/aws-lambda-go/otellambda/xrayconfig"
 	"go.opentelemetry.io/otel/attribute"
@@ -45,10 +45,10 @@ func main() {
 		loggingMiddleware(),
 	)(Endpoint)
 
-	handler := awslambdago.NewAPIGatewayHandler(
+	handler := awslambdago.NewAPIGatewayTransport(
 		func(_ *events.APIGatewayProxyRequest) (string, error) { return "", nil },
 		func(_ string) (*events.APIGatewayProxyResponse, error) { return nil, nil },
-		func(err error) (*events.APIGatewayProxyResponse, error) { return nil, nil },
+		func(err error) *events.APIGatewayProxyResponse { return nil },
 		ep,
 	)
 
