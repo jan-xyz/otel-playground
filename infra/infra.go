@@ -15,7 +15,9 @@ import (
 )
 
 const (
-	otelCollectorVersion = "0-90-1"
+	// latest version: https://github.com/aws-observability/aws-otel-lambda/blob/main/CHANGELOG.md
+	// changelog: https://github.com/aws-observability/aws-otel-collector/releases
+	otelCollectorVersion = "0-98-0"
 	architecture         = "arm64"
 )
 
