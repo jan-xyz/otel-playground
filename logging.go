@@ -21,6 +21,7 @@ func setupLogging() {
 
 	provider := log.NewLoggerProvider(
 		log.WithProcessor(log.NewBatchProcessor(exporter)),
+		log.WithResource(res),
 	)
 	global.SetLoggerProvider(provider)
 }

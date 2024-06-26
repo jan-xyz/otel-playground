@@ -9,26 +9,25 @@ import (
 	awslambdago "github.com/jan-xyz/box/transports/github.com/aws/aws-lambda-go"
 	"go.opentelemetry.io/contrib/instrumentation/github.com/aws/aws-lambda-go/otellambda"
 	"go.opentelemetry.io/contrib/instrumentation/github.com/aws/aws-lambda-go/otellambda/xrayconfig"
-	"go.opentelemetry.io/otel/attribute"
 	"go.opentelemetry.io/otel/sdk/resource"
-	semconv "go.opentelemetry.io/otel/semconv/v1.18.0"
+	semconv "go.opentelemetry.io/otel/semconv/v1.25.0"
 )
 
 var (
-	service           = "otel-test"
-	environment       = "dev"
-	id          int64 = 12345
-	res               = resource.NewWithAttributes(
+	service     = "otel-test"
+	environment = "dev"
+	res         = resource.NewWithAttributes(
 		semconv.SchemaURL,
+
 		// sets the service correctly
-		semconv.ServiceNameKey.String(service),
+		semconv.ServiceName(service),
 
 		// helps parse stack traces and errors
 		semconv.TelemetrySDKLanguageGo,
 
 		// others
-		semconv.DeploymentEnvironmentKey.String(environment),
-		attribute.Int64("id", id),
+		semconv.DeploymentEnvironment(environment),
+		semconv.ServiceVersion("v0.0.1"),
 	)
 )
 
