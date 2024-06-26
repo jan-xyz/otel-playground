@@ -4,7 +4,6 @@ go 1.22
 
 require (
 	github.com/aws/aws-lambda-go v1.47.0
-	github.com/go-logr/logr v1.4.2
 	github.com/jan-xyz/box v0.4.0
 	go.opentelemetry.io/contrib/instrumentation/github.com/aws/aws-lambda-go/otellambda v0.52.0
 	go.opentelemetry.io/contrib/instrumentation/github.com/aws/aws-lambda-go/otellambda/xrayconfig v0.52.0
@@ -16,6 +15,8 @@ require (
 	go.opentelemetry.io/otel/sdk/metric v1.27.0
 	go.opentelemetry.io/otel/trace v1.27.0
 )
+
+require github.com/go-logr/logr v1.4.2 // indirect
 
 require (
 	github.com/cenkalti/backoff/v4 v4.3.0 // indirect
