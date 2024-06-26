@@ -9,11 +9,12 @@ import (
 	"go.opentelemetry.io/otel/exporters/stdout/stdoutlog"
 	"go.opentelemetry.io/otel/log/global"
 	"go.opentelemetry.io/otel/sdk/log"
+	"go.opentelemetry.io/otel/sdk/resource"
 
 	"go.opentelemetry.io/otel/trace"
 )
 
-func setupLogging() *log.LoggerProvider {
+func setupLogging(_ context.Context, res *resource.Resource) *log.LoggerProvider {
 	exporter, err := stdoutlog.New()
 	if err != nil {
 		panic(err)

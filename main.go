@@ -35,7 +35,7 @@ func main() {
 	ctx := context.Background()
 
 	// Setup instrumentation
-	lp := setupLogging()
+	lp := setupLogging(ctx, res)
 	mp := setupMetrics(ctx, res)
 	tp := setupTracing(ctx, res)
 
