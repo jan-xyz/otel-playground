@@ -35,7 +35,7 @@ func main() {
 	ctx := context.Background()
 
 	// Setup instrumentation
-	setupLogging()
+	lp := setupLogging()
 	mp := setupMetrics(ctx, res)
 	tp := setupTracing(ctx, res)
 
@@ -51,6 +51,11 @@ func main() {
 		ep,
 	)
 
+	defer func() {
+		if err := lp.Shutdown(ctx); err != nil {
+			panic(err)
+		}
+	}()
 	defer func() {
 		if err := tp.Shutdown(ctx); err != nil {
 			panic(err)
@@ -73,6 +78,7 @@ func main() {
 			xrayconfig.WithEventToCarrier(),
 			xrayconfig.WithPropagator(),
 			otellambda.WithTracerProvider(tp),
+			otellambda.WithFlusher(lp),
 			otellambda.WithFlusher(tp),
 			otellambda.WithFlusher(mp),
 		),

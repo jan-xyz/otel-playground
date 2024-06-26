@@ -13,7 +13,7 @@ import (
 	"go.opentelemetry.io/otel/trace"
 )
 
-func setupLogging() {
+func setupLogging() *log.LoggerProvider {
 	exporter, err := stdoutlog.New()
 	if err != nil {
 		panic(err)
@@ -24,6 +24,7 @@ func setupLogging() {
 		log.WithResource(res),
 	)
 	global.SetLoggerProvider(provider)
+	return provider
 }
 
 type userID struct{}
