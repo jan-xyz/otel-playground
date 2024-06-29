@@ -41,6 +41,7 @@ func main() {
 
 	ep := box.Chain(
 		tracingMiddleware(),
+		metricMiddleware(),
 		loggingMiddleware(),
 	)(Endpoint)
 

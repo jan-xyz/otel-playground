@@ -9,6 +9,7 @@ import (
 	"github.com/jan-xyz/box"
 	"go.opentelemetry.io/contrib/bridges/otelslog"
 	"go.opentelemetry.io/otel"
+	"go.opentelemetry.io/otel/metric"
 )
 
 var (
@@ -16,6 +17,41 @@ var (
 	tracer = otel.Tracer(service)
 	meter  = otel.Meter(service)
 )
+
+var (
+	requestCounter metric.Int64Counter
+	errorCounter   metric.Int64Counter
+)
+
+func init() {
+	var err error
+	requestCounter, err = meter.Int64Counter("request.counter",
+		metric.WithDescription("The number of requests"),
+		metric.WithUnit("{request}"))
+	if err != nil {
+		panic(err)
+	}
+
+	errorCounter, err = meter.Int64Counter("error.counter",
+		metric.WithDescription("The number of errors"),
+		metric.WithUnit("{error}"))
+	if err != nil {
+		panic(err)
+	}
+}
+
+func metricMiddleware() box.Middleware[string, string] {
+	return func(next box.Endpoint[string, string]) box.Endpoint[string, string] {
+		return func(ctx context.Context, req string) (string, error) {
+			requestCounter.Add(ctx, 1)
+			out, err := next(ctx, req)
+			if err != nil {
+				errorCounter.Add(ctx, 1)
+			}
+			return out, err
+		}
+	}
+}
 
 func tracingMiddleware() box.Middleware[string, string] {
 	return func(next box.Endpoint[string, string]) box.Endpoint[string, string] {
@@ -45,9 +81,6 @@ func loggingMiddleware() box.Middleware[string, string] {
 func Endpoint(ctx context.Context, _ string) (string, error) {
 	for i := 0; i < 10; i++ {
 		process(ctx, i)
-	}
-	if c, err := meter.Int64Counter("request_handled"); err == nil {
-		c.Add(ctx, 1)
 	}
 	return "", nil
 }
