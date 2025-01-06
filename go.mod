@@ -5,7 +5,7 @@ toolchain go1.22.10
 
 require (
 	github.com/aws/aws-lambda-go v1.47.0
-	github.com/jan-xyz/box v0.4.0
+	github.com/jan-xyz/box v0.4.1
 	go.opentelemetry.io/contrib/instrumentation/github.com/aws/aws-lambda-go/otellambda v0.58.0
 	go.opentelemetry.io/contrib/instrumentation/github.com/aws/aws-lambda-go/otellambda/xrayconfig v0.58.0
 	go.opentelemetry.io/contrib/propagators/aws v1.33.0
