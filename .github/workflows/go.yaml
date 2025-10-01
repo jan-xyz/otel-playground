@@ -9,7 +9,7 @@ jobs:
       - name: Git clone the repository
         uses: actions/checkout@v5
 
-      - uses: actions/setup-go@v5
+      - uses: actions/setup-go@v6
 
       - run: go build ./...
 
