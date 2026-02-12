@@ -79,7 +79,7 @@ func loggingMiddleware() box.Middleware[string, string] {
 }
 
 func Endpoint(ctx context.Context, _ string) (string, error) {
-	for i := 0; i < 10; i++ {
+	for i := range 10 {
 		process(ctx, i)
 	}
 	return "", nil
