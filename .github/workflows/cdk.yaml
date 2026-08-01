@@ -9,7 +9,7 @@ jobs:
       - name: Git clone the repository
         uses: actions/checkout@v7
 
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@v7
 
       - run: npm exec cdk synth
         working-directory: ./infra
