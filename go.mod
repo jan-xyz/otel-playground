@@ -3,7 +3,7 @@ module otel-playground
 go 1.26.0
 
 require (
-	github.com/aws/aws-lambda-go v1.55.0
+	github.com/aws/aws-lambda-go v1.55.1
 	github.com/jan-xyz/box v0.4.1
 	go.opentelemetry.io/contrib/instrumentation/github.com/aws/aws-lambda-go/otellambda v0.71.0
 	go.opentelemetry.io/contrib/instrumentation/github.com/aws/aws-lambda-go/otellambda/xrayconfig v0.71.0
