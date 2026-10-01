@@ -1,7 +1,7 @@
 github.com/Masterminds/semver/v3 v3.5.0 h1:kQceYJfbupGfZOKZQg0kou0DgAKhzDg2NZPAwZ/2OOE=
 github.com/Masterminds/semver/v3 v3.5.0/go.mod h1:4V+yj/TJE1HU9XfppCwVMZq3I84lprf4nC11bSS5beM=
-github.com/aws/aws-cdk-go/awscdk/v2 v2.267.0 h1:9gVaF+xKGlzsb9JU08+tOHIZS01+zN9UIYrg0hcTjA0=
-github.com/aws/aws-cdk-go/awscdk/v2 v2.267.0/go.mod h1:jE9ssfb3xV5XQvUuQQOUlMd69DA+4TDyH1AhBsH4+5o=
+github.com/aws/aws-cdk-go/awscdk/v2 v2.271.0 h1:4QGmVqz9RvHxdOkqS/CUk0EQK7c/d8mjErmbjTyQ3ow=
+github.com/aws/aws-cdk-go/awscdk/v2 v2.271.0/go.mod h1:xYqlzijeRoPjH6sQw7NTNvzyoB8BhLqRHlDLUSc71vs=
 github.com/aws/constructs-go/constructs/v10 v10.8.1 h1:3v8GKrQxzvAO3FZqtk9W81NANq3aINvVf/+xFkdNQgc=
 github.com/aws/constructs-go/constructs/v10 v10.8.1/go.mod h1:UK5AwSnhkq3F8CUVRn7bgsm5ntL/kwokzaze8dHBGBI=
 github.com/aws/jsii-runtime-go v1.140.0 h1:kLxNL1zIYSmXMpUwyukq8EtUmH5LUCeCxJaCPmQPIS8=
@@ -10,8 +10,8 @@ github.com/cdklabs/awscdk-asset-awscli-go/awscliv1/v2 v2.2.292 h1:kJPmdAT0Ci49lJ
 github.com/cdklabs/awscdk-asset-awscli-go/awscliv1/v2 v2.2.292/go.mod h1:oX6rMF+RSd6IVv1W9XME4NeOVGrjNC5MasjC8QEe/oo=
 github.com/cdklabs/awscdk-asset-node-proxy-agent-go/nodeproxyagentv6/v2 v2.1.2 h1:xAsctRl309idodSn5nShEHg3MtCIhbR7SRwtg4mk0tY=
 github.com/cdklabs/awscdk-asset-node-proxy-agent-go/nodeproxyagentv6/v2 v2.1.2/go.mod h1:fM0jJhRyx51Tcu8cVKbgWSMIeTGo6OtwZezt1mHZPQY=
-github.com/cdklabs/cloud-assembly-schema-go/awscdkcloudassemblyschema/v54 v54.11.0 h1:LoiCsBtTBiUQu7Cr5KT3kh968Byjwlag0Nuy+/ddwhk=
-github.com/cdklabs/cloud-assembly-schema-go/awscdkcloudassemblyschema/v54 v54.11.0/go.mod h1:o4E0t9irFOYzIU5sC5MgXoLnWEI+/yiXKtuZfa42x/Y=
+github.com/cdklabs/cloud-assembly-schema-go/awscdkcloudassemblyschema/v54 v54.24.0 h1:qnEc8RdiYnR5CWyx2fniyVf/Ulb9DQ/nK82ANqheJq8=
+github.com/cdklabs/cloud-assembly-schema-go/awscdkcloudassemblyschema/v54 v54.24.0/go.mod h1:FUhaup2xQTq5q3SWz5MDJVGgj2do+2pjiGw4VcO32Ao=
 github.com/fatih/color v1.19.0 h1:Zp3PiM21/9Ld6FzSKyL5c/BULoe/ONr9KlbYVOfG8+w=
 github.com/fatih/color v1.19.0/go.mod h1:zNk67I0ZUT1bEGsSGyCZYZNrHuTkJJB+r6Q9VuMi0LE=
 github.com/google/go-cmp v0.6.0 h1:ofyhxvXcZhMsU5ulbFiLKl/XBFqE1GSq7atu8tAmTRI=
